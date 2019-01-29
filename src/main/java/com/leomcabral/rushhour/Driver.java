@@ -32,23 +32,34 @@ public class Driver {
         d.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
         TimesheetDriver td = new AchievoDriver(d);
-        td.login("lcabral", "gaD88Sa1");
+        td.login("lcabral", "");
 
         SortedSet<LocalDate> blacklist = makeBlacklist();
 
 
-        LocalDate date = LocalDate.of(2017, 8, 1);
+        LocalDate date = LocalDate.of(2018, 12, 3);
         LocalDate today = LocalDate.now();
 
         try {
             TreeSet.tabulate(10000, (i) -> date.plusDays(i))
+                    .toStream()
                     .takeWhile((ld) -> ld.isBefore(today))
                     .filter(ld -> ld.getDayOfWeek() != DayOfWeek.SUNDAY && ld.getDayOfWeek() != DayOfWeek.SATURDAY)
                     .filter(ld -> !blacklist.contains(ld))
                     .map(td::getRegisteredHours)
+//                    .forEach(wh -> {
+//                        if (wh.isRegistered()) {
+//                            log.info("Skipping {}", wh);
+//                            return;
+//                        }
+//                        log.info("Registering {}", wh);
+//                        //td.register(wh);
+//                        log.info("Registration for '{}' done");
+//                    });
                     .filter(wh -> !wh.isRegistered())
-                    .forEach(System.out::println);
-
+//                    .forEach(System.out::println);
+                    .forEach(td::register);
+//
 //        while (date.isBefore(today)) {
 
 //            WorkHour hh = td.getRegisteredHours(date)

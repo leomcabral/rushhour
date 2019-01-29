@@ -18,6 +18,6 @@ public interface TimesheetDriver {
 
     WorkHour getRegisteredHours(LocalDate date);
 
-    Either<Exception, WorkHour> register(LocalDate date);
+    Either<Exception, WorkHour> register(WorkHour workHour);
 
 }
