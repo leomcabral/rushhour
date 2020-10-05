@@ -40,7 +40,7 @@ class BlacklistLoaderTest {
     @Test
     @DisplayName("Only regular files should be used")
     void notAFile() {
-        final Path directory = Paths.get("./data");
+        final Path directory = Paths.get("./data2");
         assertThrows(IOException.class, () -> underTest.load(directory));
     }
 
